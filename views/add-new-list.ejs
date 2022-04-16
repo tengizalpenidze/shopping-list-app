@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<% include head %> 
+</head>
+<% include navbar %>
+<h5>
+  Create new shopping list
+</h5>
+<form action ='/add-new' method="post">
+
+  <div class="row">
+    <div class="col col-md-2">
+      <input type="text" class="form-control form-control" name="shopping_list_name" placeholder="Name of this list">
+    </div>
+    <div class="col col-md-3">
+      <input type="text" class="form-control" name="shopping_list_overview" placeholder="Small description of the list">
+    </div>
+  </div>
+<br>
+<span  id = 'input-fields-for-shopping-list'>
+<div class="mb-3 input-group" id="item-details-0">
+  <input type="text" class="form-control" name="item_name" placeholder="Item name">
+  <input type="text" class="form-control" name="item_quantity" placeholder="Quantity">
+  <input type="text" class="form-control" name="extra_details" placeholder="Extra details">
+</div>
+</span>
+<div>
+<button type="button" class="btn btn-light" id="add-item"><i class="bi bi-plus-circle"></i>Add item</button>
+</div>
+<br>
+<button type="submit" class="btn btn-primary float-end">Save the shopping list</button>
+</form>
+
+<script>
+let i = 2;
+let $idemFields = $('#item-details-0').clone();
+$('#add-item').on('click', function () {
+    let $fieldsForList = $idemFields.clone();
+    let oldId =  $idemFields.attr('id');
+    let newId = oldId.slice(0, -1) + i;
+    $fieldsForList.attr('id', newId);
+    $("#input-fields-for-shopping-list").append($fieldsForList);
+    i++;
+});
+</script>
+
+  </body>
+</html>

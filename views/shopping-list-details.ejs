@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<% include head %> 
+</head>
+<% include navbar %>
+    <h1><%= shopping_list_overview[0].shopping_list_name %></h1>
+    <p>Welcome to <%= shopping_list_overview[0].shopping_list_overview %></p>
+    <div class="list-group">
+
+      <% shopping_list.forEach(function(item){ %>
+        
+      <label class="list-group-item  <%= item.status == 'bought'? 'list-group-item-success' : '' %>  " >
+      <input class="form-check-input mr-1" type="checkbox" data-itemId = "<%= item.id%>" <%= item.status == 'bought'? 'checked' : '' %> </label>
+        <%= item.quantity +' ' +item.item_name %>  </label>
+      <% }) %>
+      <br>
+    </div>
+
+    <div class="mb-3 input-group" id="item-details-0" hidden>
+      <input type="text" class="form-control" name="item_name" placeholder="Item name">
+      <input type="text" class="form-control" name="item_quantity" placeholder="Quantity">
+      <input type="text" class="form-control" name="extra_details" placeholder="Extra details">
+      <button class="btn btn-outline-secondary add-list-item-input-group" type="button">Save</button>
+    </div>
+    <span href="" id="plus-button">
+    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+      <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+    </svg>
+  </span>
+    <script>
+        $(".form-check-input").click(function () {
+          console.log($(this).is(':checked'));
+          
+          var $elementClicked = $(this);
+          $.post( $(this).is(':checked') ? "/shoppinglist/mark-item-bought" : "/shoppinglist/mark-item-not-bought", {
+            "id": $(this).attr('data-itemId')
+
+          }, function (data, status) {
+            console.log(data);
+            data.status == 'bought'?
+            $elementClicked.parent().addClass('list-group-item-success'):$elementClicked.parent().removeClass('list-group-item-success');
+          });
+        });
+        var $inputLine;
+        $("#plus-button").click(function () {
+          $inputLine = $('#item-details-0').clone().removeAttr('hidden');
+          $('.list-group').append($inputLine);
+        });
+
+        $(".add-list-item-input-group").click(function () {
+          alert('dcsdcs');
+          var $inputGroupClicked = $(this).parent();
+          console.log($inputGroupClicked);
+          /*
+          $.post("/shoppinglist/add-item-to-list", {
+            "id": $(this).attr('data-itemId')
+
+          }, function (data, status) {
+            console.log(data);
+            data.status == 'bought'?
+            $elementClicked.parent().addClass('list-group-item-success'):$elementClicked.parent().removeClass('list-group-item-success');
+          });*/
+        });
+
+    </script>
+  </body>
+</html>

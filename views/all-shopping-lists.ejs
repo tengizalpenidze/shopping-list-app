@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <% include head %>
+</head>
+<% include navbar %>
+  <h1>
+    <%= title %>
+  </h1>
+  <p>Welcome to <%= title %>
+  </p>
+  <div class="list-group">
+    <% shopping_lists.forEach(function(shopping_list){ %>
+      <div class="ta-container" >
+        <div class="col-8">
+          <a href='/shoppinglist/<%=shopping_list.id %>' class="list-group-item list-group-item-action col-sm"
+            aria-current="true">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">
+                <%= shopping_list.shopping_list_name %>
+              </h5>
+
+            </div>
+            <p class="mb-1">
+              <%= shopping_list.shopping_list_overview %>
+            </p>
+          </a>
+        </div>
+        <div class="col-4  vertical-centered-button">
+          <button type="button" class="sm-1 btn btn-outline-danger delete-button" value="<%=shopping_list.id %>">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash"
+              viewBox="0 0 16 16">
+              <path
+                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z">
+              </path>
+              <path fill-rule="evenodd"
+                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z">
+              </path>
+            </svg>
+            Delete
+          </button>
+        </div>
+      </div>
+      <% }) %>
+  </div>
+  <script src="../javascripts/page-scripts.js"></script>
+  </body>
+
+</html>

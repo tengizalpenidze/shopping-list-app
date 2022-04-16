@@ -1,0 +1,27 @@
+body {
+  padding: 10px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.ta-list-group-item {
+  position: relative;
+  display: block;
+  padding: 0.5rem 1rem;
+  color: #212529;
+  text-decoration: none;
+  background-color: #fff;
+ 
+}
+
+.ta-container{
+  display: flex;
+}
+
+.vertical-centered-button{
+  padding:1%;
+ 
+}
