@@ -1,10 +1,12 @@
 var mysql = require('mysql2');
-var util = require('util');
+
+
+var sqlUsername = process.env.SQL_USERNAME || 'sqluser';
 
 var pool  = mysql.createPool({
   connectionLimit : 10,
   host            : '127.0.0.1',
-  user            : 'sqluser',
+  user            : sqlUsername,
   password        : 'Aa123456',
   database        : 'household'
 });
@@ -18,13 +20,10 @@ pool.query('select * from shopping_list where item_name == ?',[params], function
 */
 //pool.query = util.promisify(pool.query);
 
-module.exports =
-// pool;
-  
-  {
-    query: (queryText, params, callback)=>{
-       return pool.query(queryText,[params], callback);
-    },
+module.exports ={
+        query: (queryText, params, callback)=>{
+          return pool.query(queryText,[params], callback);
+        },
   };
     
  
