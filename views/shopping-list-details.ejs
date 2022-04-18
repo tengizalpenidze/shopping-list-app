@@ -1,22 +1,26 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-<% include head %> 
+  <% include head %>
 </head>
 <% include navbar %>
-    <h1><%= shopping_list_overview[0].shopping_list_name %></h1>
-    <p>Welcome to <%= shopping_list_overview[0].shopping_list_overview %></p>
-    <div class="list-group">
+  <h1>
+    <%= shopping_list_overview[0].shopping_list_name %>
+  </h1>
+  <p>Welcome to <%= shopping_list_overview[0].shopping_list_overview %>
+  </p>
+  <div class="list-group" id="all-list-items-wrapper">
 
-      <% shopping_list.forEach(function(item){ %>
-        
-      <label class="list-group-item  <%= item.status == 'bought'? 'list-group-item-success' : '' %>  " >
-      <input class="form-check-input mr-1" type="checkbox" data-itemId = "<%= item.id%>" <%= item.status == 'bought'? 'checked' : '' %> </label>
-        <%= item.quantity +' ' +item.item_name %>  </label>
+    <% shopping_list.forEach(function(item){ %>
+
+      <label class="list-group-item  <%= item.status == 'bought'? 'list-group-item-success' : '' %>  ">
+        <input class="form-check-input mr-1" type="checkbox" data-itemId="<%= item.id%>" <%=item.status=='bought'
+          ? 'checked' : '' %> </label>
+      <%= item.quantity +' ' +item.item_name %>  </label>
       <% }) %>
-      <br>
     </div>
-
+<br>
     <div class="mb-3 input-group" id="item-details-0" hidden>
       <input type="text" class="form-control" name="item_name" placeholder="Item name">
       <input type="text" class="form-control" name="item_quantity" placeholder="Quantity">
@@ -30,40 +34,37 @@
     </svg>
   </span>
     <script>
-        $(".form-check-input").click(function () {
-          console.log($(this).is(':checked'));
-          
-          var $elementClicked = $(this);
-          $.post( $(this).is(':checked') ? "/shoppinglist/mark-item-bought" : "/shoppinglist/mark-item-not-bought", {
+
+      $(' #all-list-items-wrapper').on("click", '.form-check-input', function () {
+        var $elementClicked = $(this); $.post(
+          $(this).is(':checked') ? "/shoppinglist/mark-item-bought" : "/shoppinglist/mark-item-not-bought", {
             "id": $(this).attr('data-itemId')
-
-          }, function (data, status) {
-            console.log(data);
-            data.status == 'bought'?
-            $elementClicked.parent().addClass('list-group-item-success'):$elementClicked.parent().removeClass('list-group-item-success');
-          });
+        }, function (data, status) {
+          console.log(data); data.status == 'bought' ?
+            $elementClicked.parent().addClass('list-group-item-success') : $elementClicked.parent().removeClass('list-group-item-success');
         });
-        var $inputLine;
-        $("#plus-button").click(function () {
-          $inputLine = $('#item-details-0').clone().removeAttr('hidden');
-          $('.list-group').append($inputLine);
+      }); var $inputLine; $("#plus-button").click(function () {
+        $inputLine = $('#item-details-0').clone().removeAttr('hidden'); $('.list-group').append($inputLine);
+      });
+      $('.list-group').on("click", '.add-list-item-input-group', function () { //alert('dcsdcs'); var
+        $inputGroupClicked = $(this).parent(); $.post("/shoppinglist/add-item-to-list", {
+          "id"
+            : '<%- JSON.stringify(shopping_list[0].shopping_list_id) %>', 'item_name':
+            $inputGroupClicked.children('input[name="item_name" ]').val(), 'item_quantity':
+            $inputGroupClicked.children('input[name="item_quantity" ]').val(), 'extra_details':
+            $inputGroupClicked.children('input[name="extra_details" ]').val()
+        }, function (data, status) {
+          $('#all-list-items-wrapper').append(`<label class="list-group-item">
+        <input class="form-check-input mr-1" type="checkbox" data-itemId="`+ data.item_id + `" </label>
+        `+ $inputGroupClicked.children('input[name="item_quantity"]').val() + ' '
+            + $inputGroupClicked.children('input[name="item_name"]').val()
+          );
+          $inputGroupClicked.remove();
         });
+      });
 
-        $(".add-list-item-input-group").click(function () {
-          alert('dcsdcs');
-          var $inputGroupClicked = $(this).parent();
-          console.log($inputGroupClicked);
-          /*
-          $.post("/shoppinglist/add-item-to-list", {
-            "id": $(this).attr('data-itemId')
-
-          }, function (data, status) {
-            console.log(data);
-            data.status == 'bought'?
-            $elementClicked.parent().addClass('list-group-item-success'):$elementClicked.parent().removeClass('list-group-item-success');
-          });*/
-        });
 
     </script>
-  </body>
+        </body>
+
 </html>

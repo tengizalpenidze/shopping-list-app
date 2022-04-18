@@ -36,4 +36,17 @@ router.post('/mark-item-not-bought', function(req,res,next){
   });
 });
 
+router.post('/add-item-to-list', function(req,res,next){
+  let idOfShoppingList = req.body.id;
+  let queryText = dbHelper.createQueryToAddNewListItems(idOfShoppingList, req.body);
+  mysqlDb.query(queryText,idOfShoppingList,(error,results)=>{
+    if(error){
+      console.log(error);
+      throw error;
+    }
+    console.log("scsca");
+    res.status(200).send({'item_id': results.insertId});
+  });
+});
+
 module.exports = router;

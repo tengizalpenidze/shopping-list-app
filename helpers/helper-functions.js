@@ -3,7 +3,6 @@ const mysqlDb = require('../db/mysqlcon');
 const dbHelper = {};
 
 dbHelper.createQueryToAddNewListItems = function (listId, listItems){
-    console.log('we are here. 1')
     let queryToAddNewListItems = "INSERT INTO `shopping_list` (`item_name`, `quantity`, `extra_details`, `shopping_list_id`) values ";
   
     //if we haave only 1 row to add
