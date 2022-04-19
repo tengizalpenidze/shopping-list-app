@@ -13,11 +13,27 @@
   <div class="list-group" id="all-list-items-wrapper">
 
     <% shopping_list.forEach(function(item){ %>
-
+      <div class="row" >
+        <div class="col-md-12 bg-light text-right">
       <label class="list-group-item  <%= item.status == 'bought'? 'list-group-item-success' : '' %>  ">
         <input class="form-check-input mr-1" type="checkbox" data-itemId="<%= item.id%>" <%=item.status=='bought'
-          ? 'checked' : '' %> </label>
-      <%= item.quantity +' ' +item.item_name %>  </label>
+         ? 'checked' : '' %>  
+      </label> 
+      <%= item.quantity +' ' +item.item_name %>    
+
+      <button type="button" class="sm-1 btn btn-outline-danger delete-button small-button-right" >
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+          <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z">
+          </path>
+          <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z">
+          </path>
+        </svg>
+      </button>
+              
+            </label>
+        </div>
+    </div>
+
       <% }) %>
     </div>
 <br>
@@ -36,31 +52,47 @@
     <script>
 
       $(' #all-list-items-wrapper').on("click", '.form-check-input', function () {
-        var $elementClicked = $(this); $.post(
+        var $elementClicked = $(this); 
+        $.post(
           $(this).is(':checked') ? "/shoppinglist/mark-item-bought" : "/shoppinglist/mark-item-not-bought", {
             "id": $(this).attr('data-itemId')
         }, function (data, status) {
-          console.log(data); data.status == 'bought' ?
+          data.status == 'bought' ?
             $elementClicked.parent().addClass('list-group-item-success') : $elementClicked.parent().removeClass('list-group-item-success');
         });
-      }); var $inputLine; $("#plus-button").click(function () {
-        $inputLine = $('#item-details-0').clone().removeAttr('hidden'); $('.list-group').append($inputLine);
+      }); 
+      var $inputLine; 
+      $("#plus-button").click(function () {
+        $inputLine = $('#item-details-0').clone().removeAttr('hidden'); 
+        $('.list-group').append($inputLine);
       });
-      $('.list-group').on("click", '.add-list-item-input-group', function () { //alert('dcsdcs'); var
-        $inputGroupClicked = $(this).parent(); $.post("/shoppinglist/add-item-to-list", {
-          "id"
-            : '<%- JSON.stringify(shopping_list[0].shopping_list_id) %>', 'item_name':
-            $inputGroupClicked.children('input[name="item_name" ]').val(), 'item_quantity':
-            $inputGroupClicked.children('input[name="item_quantity" ]').val(), 'extra_details':
-            $inputGroupClicked.children('input[name="extra_details" ]').val()
+
+
+      $('.list-group').on("click", '.add-list-item-input-group', function () {
+        $inputGroupClicked = $(this).parent(); 
+        $.post("/shoppinglist/add-item-to-list", {
+          "id" :            '<%- JSON.stringify(shopping_list[0].shopping_list_id) %>', 
+          'item_name':      $inputGroupClicked.children('input[name="item_name" ]').val(), 
+          'item_quantity':  $inputGroupClicked.children('input[name="item_quantity" ]').val(), 
+          'extra_details':  $inputGroupClicked.children('input[name="extra_details" ]').val()
         }, function (data, status) {
-          $('#all-list-items-wrapper').append(`<label class="list-group-item">
-        <input class="form-check-input mr-1" type="checkbox" data-itemId="`+ data.item_id + `" </label>
-        `+ $inputGroupClicked.children('input[name="item_quantity"]').val() + ' '
-            + $inputGroupClicked.children('input[name="item_name"]').val()
-          );
-          $inputGroupClicked.remove();
+          location.reload();
         });
+
+
+      });
+
+
+      $('.list-group').on("click", '.delete-button', function () {
+        let $inputGroupClicked = $(this).parent().children('input'); 
+        //console.log($inputGroupClicked);
+        $.post("/shoppinglist/delete-item", {
+          "id" :            $inputGroupClicked.attr('data-itemId'), 
+        }, function (data, status) {
+          location.reload();
+        });
+
+
       });
 
 

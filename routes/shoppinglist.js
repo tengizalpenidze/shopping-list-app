@@ -49,4 +49,11 @@ router.post('/add-item-to-list', function(req,res,next){
   });
 });
 
+router.post('/delete-item', async function(req,res,next){
+  let idOfItem = req.body.id;
+  console.log(req.body);
+  let result = await dbHelper.deleteShoppingListItems([idOfItem]);
+  res.status('200').send("Item deleted");
+});
+
 module.exports = router;

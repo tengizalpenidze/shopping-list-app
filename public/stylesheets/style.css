@@ -25,3 +25,9 @@ a {
   padding:1%;
  
 }
+
+.small-button-right{
+  height: 25px;
+  line-height: 0%;
+  float: right;
+}
