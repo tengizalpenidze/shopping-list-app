@@ -19,7 +19,7 @@
         <input class="form-check-input mr-1" type="checkbox" data-itemId="<%= item.id%>" <%=item.status=='bought'
          ? 'checked' : '' %>  
       </label> 
-      <%= item.quantity +' ' +item.item_name %>    
+      <%= item.quantity +' ' +item.item_name + '.  ' +item.extra_details %>    
 
       <button type="button" class="sm-1 btn btn-outline-danger delete-button small-button-right" >
         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
