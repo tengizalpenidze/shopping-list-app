@@ -1,6 +1,10 @@
 body {
   padding: 10px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-image: url("../images/bao-groceries.png");
+  background-repeat: no-repeat;
+  background-color: aliceblue;
+
 }
 
 a {
