@@ -2,14 +2,14 @@ var express = require('express');
 const res = require('express/lib/response');
 var router = express.Router();
 const mysqlDb = require('../db/mysqlcon');
-const dbHelper = require('../helpers/helper-functions');
+const dbHelper = require('../helpers/db-helper-functions');
 
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   //res.render('index', { title: 'Shopping list' });
   //res.render('all-shopping-lists', { title: 'All shopping lists' });
-  const queryText = 'select * from all_shopping_lists;';
+  const queryText = 'select * from all_shopping_lists order by creation_date DESC;';
   let params = ['Potatoes'];
   mysqlDb.query(queryText,params,(error,results)=>{
     res.locals.shopping_lists = results;
@@ -17,13 +17,15 @@ router.get('/', function(req, res, next) {
   })
 });
 
+
 router.get('/add-new', (req,res,next)=>{
   res.render('add-new-list');
 });
 
 router.post('/add-new', (req, res, next) => {
-  let queryToAddNewList = "INSERT INTO `all_shopping_lists` (`shopping_list_name`, `shopping_list_overview`) VALUES (?)";
-  let parameters = [req.body.shopping_list_name, req.body.shopping_list_overview];
+  let queryToAddNewList = "INSERT INTO `all_shopping_lists` (`shopping_list_name`, `shopping_list_overview`, `creation_date`) VALUES (?)";
+  let dateTime = new Date();
+  let parameters = [req.body.shopping_list_name, req.body.shopping_list_overview, dateTime];
   var idOfNewList = "";
 
   insertANewList = () => {
@@ -90,6 +92,26 @@ router.post('/delete-list', async (req,res,next)=>{
         throw error;
       }
       res.status(200).send("all good");
+    })
+  } catch(error){
+    console.log(error);
+    res.send(error);
+  }
+
+});
+
+
+router.post('/mark-list-bought', async (req,res,next)=>{
+  try{
+    let params = [req.body.amount_payed ? req.body.amount_payed : null];
+    let queryToUpdateList = "UPDATE all_shopping_lists SET status = 'bought', money_payed = ? WHERE id = "+req.body.shopping_list_id;
+    mysqlDb.query(queryToUpdateList,params,(error,results)=>{
+      if(error) {
+        console.log(error);
+        res.send(error);
+        throw error;
+      }
+      res.status(200).send(results);
     })
   } catch(error){
     console.log(error);

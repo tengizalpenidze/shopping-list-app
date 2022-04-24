@@ -12,3 +12,19 @@ $(".delete-button").click(function(){
 });
 
 
+$(".mark-shopping-done-button").click(function(){
+    let amountPayed = Number($(this).parent().parent().find('input.form-control').val());
+    if(amountPayed){
+        console.log("cvadasdas");
+    }else{
+       console.log( typeof(amountPayed));
+    }
+    
+    $.post("/mark-list-bought", {
+        "shopping_list_id" : $(this).val(),
+        "amount_payed":    amountPayed 
+        
+    },function(data, status){
+        console.log(data);
+    });
+});

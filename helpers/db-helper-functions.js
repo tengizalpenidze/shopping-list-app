@@ -60,7 +60,26 @@ dbHelper.getShoppingListOverview = function(idOfShoppingList){
             return resolve(results);
 
         });
-    })
+    });
+
+}
+
+dbHelper.getPercentOfBoughtItems = function(idOfShoppingList){
+
+    return new Promise((resolve, reject)=>{
+
+        let queryToGetPercentOfBought = "SELECT count (*) / (select count (*) from shopping_list where shopping_list_id = ?') as 'Percentage'" + 
+                                        "from shopping_list where shopping_list_id = ? and status = `bought`"
+
+        params = [idOfShoppingList,idOfShoppingList ];
+        mysqlDb.query(queryToGetPercentOfBought, params, (error, results) => {
+            if (error) {
+                return reject(error);
+            }
+            return resolve(results);
+
+        });
+    });
 
 }
 

@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const mysqlDb = require('../db/mysqlcon');
-const dbHelper = require('../helpers/helper-functions');
+const dbHelper = require('../helpers/db-helper-functions');
 
 /* GET home page. */
 router.get('/:id', async function(req, res, next) {

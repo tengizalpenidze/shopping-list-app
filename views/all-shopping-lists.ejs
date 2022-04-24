@@ -8,37 +8,58 @@
 
 <br>
 
-  <div class="list-group">
+  <div class="list-group opacity-90 ">
     <% shopping_lists.forEach(function(shopping_list){ %>
-      <div class="ta-container" >
-        <div class="col-8">
-          <a href='/shoppinglist/<%=shopping_list.id %>' class="list-group-item list-group-item-action col-sm"
-            aria-current="true">
-            <div class="d-flex w-100 justify-content-between">
+      <div class="ta-container  row" >
+        <div class=" list-group-item list-group-item-action" style="display:flex;">
+          <a href='/shoppinglist/<%=shopping_list.id %>' class="list-group-item-action text-decoration-none">
+            <div class="">
               <h5 class="mb-1">
                 <%= shopping_list.shopping_list_name %>
               </h5>
-
+              <p class="mb-1">
+                <%= shopping_list.shopping_list_overview %>
+              </p>
+          
+              <% if(shopping_list.creation_date){ 
+                let dateOfListCreation=new
+                Date(shopping_list.creation_date).toLocaleDateString(); %>
+                <small>Created on <%= dateOfListCreation %></small>
+                <% } %>
             </div>
-            <p class="mb-1">
-              <%= shopping_list.shopping_list_overview %>
-            </p>
           </a>
+          
+
+            <div class="spacing-around d-flex align-items-center" style="max-width: 100px;">
+              <input type="text" class="form-control total_amount_field" name='amount_payed' placeholder="€" 
+              value = "<%=  shopping_list.money_payed ?  shopping_list.money_payed + ` €` :'' %>""
+              />
+            </div> 
+
+            <div class=" d-flex align-items-center" style="min-width: fit-content ;">
+              <button type="button" class="btn btn-outline-info mark-shopping-done-button" value="<%=shopping_list.id %>">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-check" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M10.854 8.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                  <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>
+                </svg>
+                Update</button>
+            </div>
+
+            <div class=" d-flex align-items-center spacing-around">
+              <button type="button" class="sm-1 btn btn-outline-danger delete-button" value="<%=shopping_list.id %>">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash"
+                  viewBox="0 0 16 16">
+                  <path
+                    d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z">
+                  </path>
+                  <path fill-rule="evenodd"
+                    d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z">
+                  </path>
+                </svg>
+              </button>
+            </div>
         </div>
-        <div class="col-4  vertical-centered-button">
-          <button type="button" class="sm-1 btn btn-outline-danger delete-button" value="<%=shopping_list.id %>">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash"
-              viewBox="0 0 16 16">
-              <path
-                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z">
-              </path>
-              <path fill-rule="evenodd"
-                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z">
-              </path>
-            </svg>
-            Delete
-          </button>
-        </div>
+
       </div>
       <% }) %>
   </div>

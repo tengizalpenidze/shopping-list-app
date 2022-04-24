@@ -3,9 +3,7 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-image: url("../images/bao-groceries.png");
   background-repeat: no-repeat;
-  background-color: aliceblue;
-  opacity: 0.9;
-
+  background-color: rgb(240, 248, 255);
 }
 
 a {
@@ -18,13 +16,23 @@ a {
   padding: 0.5rem 1rem;
   color: #212529;
   text-decoration: none;
-  background-color: #fff;
+  background-color: #ffffff;
  
+}
+
+.opacity-90{
+  opacity: 0.9;
 }
 
 .ta-container{
   display: flex;
+  max-width: 1000px;
 }
+
+.spacing-around{
+  margin: 5px;
+}
+
 
 .vertical-centered-button{
   padding:1%;
